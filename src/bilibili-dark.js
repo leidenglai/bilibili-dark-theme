@@ -234,6 +234,23 @@
     return style;
   }
 
+  function setDarkTheme(element) {
+    try {
+      const style = genThemeStyle();
+      document.getElementsByTagName("head").item(0).appendChild(style);
+      element.classList.add("dark-theme");
+      localStorage.setItem("ldlTheme", "dark");
+    } catch (e) {
+      console.log("e", e);
+    }
+  }
+
+  function removeDarkTheme(element) {
+    document.getElementById("ldlDarkStyle").remove();
+    element.classList.remove("dark-theme");
+    localStorage.removeItem("ldlTheme");
+  }
+
   function start() {
     // 添加按钮dom
     const div = document.createElement("div");
@@ -245,6 +262,7 @@
     const timer = setInterval(function () {
       const element = document.querySelector(".palette-button-wrap") || document.querySelector(".fixed-nav .nav-menu");
       document.getElementsByTagName("head").item(0).appendChild(genBtnStyle());
+
       if (count >= 10) {
         // 太长时间未加载就取消加载
         clearInterval(timer);
@@ -257,6 +275,13 @@
         clearInterval(timer);
         element.insertBefore(div, element.querySelector("*"));
 
+        // 设置默认主题
+        const theme = localStorage.getItem("ldlTheme");
+
+        if (theme === "dark") {
+          setDarkTheme(element.querySelector("#ldlThemeChange"));
+        }
+
         // 绑定事件
         element.querySelector("#ldlThemeChange").addEventListener(
           "click",
@@ -265,21 +290,21 @@
             const ect = e.currentTarget;
 
             if (Array.from(ect.classList).includes("dark-theme")) {
-              document.getElementById("ldlDarkStyle").remove();
+              removeDarkTheme(ect);
             } else {
-              const style = genThemeStyle();
-              document.getElementsByTagName("head").item(0).appendChild(style);
+              setDarkTheme(ect);
             }
-
-            ect.classList.toggle("dark-theme");
           },
           { passive: true }
         );
       }
-    }, 400);
+    }, 200);
   }
 
-  setTimeout(function () {
-    start();
-  }, 2000);
+  window.onload = function () {
+    // 详情界面太快开始会报错，而且onlo
+    setTimeout(function () {
+      start();
+    }, 2000);
+  };
 })(window);
