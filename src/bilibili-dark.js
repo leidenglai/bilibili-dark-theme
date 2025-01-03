@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bilibili Dark Theme
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  bilibili的黑色主题
 // @author       登来 leidenglai@qq.com
 // @match        *://*.bilibili.com/*
@@ -212,22 +212,24 @@
     style.id = "ldlDarkBtnStyle";
 
     style.innerHTML = `
-    .nav-menu .theme-btn {
-      display: block;
+    .primary-btn.theme-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+      padding: 2px 4px;
       font-size: 12px;
-      border: 1px solid var(--line_light);
-      box-sizing: border-box;
-      border-radius: 6px;
-      width: 40px;
-      margin-bottom: 12px;
-      transition: all 0.3s;
-      cursor: pointer;
       color: var(--text1);
-      fill: var(--text1);
-      text-align: center;
+      border: 1px solid var(--line_regular);
       background-color: var(--bg1_float);
-      padding: 8px 4px 4px;
-      line-height: 14px;
+      transform-origin: center;
+      transition: .2s;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      margin-bottom: 6px;
+      pointer-events: auto;
+      margin-left: 0;
     }
     `;
 
